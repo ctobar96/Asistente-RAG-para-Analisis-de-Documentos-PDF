@@ -1,2 +1,30 @@
-# Asistente-RAG-para-Analisis-de-Documentos-PDF
+# 📄 Asistente RAG para Análisis de Documentos PDF
+
 Un asistente virtual impulsado por Inteligencia Artificial Generativa capaz de analizar, extraer información y responder preguntas específicas sobre documentos PDF utilizando la arquitectura RAG (Retrieval-Augmented Generation).
+
+## 🎯 Objetivo del Proyecto
+Este proyecto demuestra la implementación práctica de un flujo de **Ingeniería de Datos** e **IA Generativa**, permitiendo que un Modelo de Lenguaje Grande (LLM) interactúe con datos no estructurados de forma segura y precisa, mitigando el riesgo de "alucinaciones" al restringir las respuestas estrictamente al contexto recuperado del documento.
+
+## 🏗️ Arquitectura y Flujo de Datos
+
+El sistema sigue el estándar de la industria para aplicaciones RAG:
+
+1. **Ingesta de Datos:** Carga de documentos PDF locales.
+2. **Procesamiento y División (Chunking):** El texto se divide en fragmentos semánticos superpuestos para optimizar la retención de contexto sin saturar la memoria del modelo.
+3. **Embeddings:** Transformación del texto a representaciones vectoriales utilizando modelos de Google Generative AI.
+4. **Almacenamiento Vectorial:** Uso de ChromaDB como base de datos vectorial temporal para indexar y buscar los fragmentos de texto más relevantes.
+5. **Generación (LLM):** Integración con Gemini 1.5 Flash para sintetizar la respuesta final basándose únicamente en el contexto recuperado.
+
+## 🛠️ Stack Tecnológico
+* **Lenguaje:** Python 3.x
+* **Framework LLM:** LangChain
+* **Modelo Generativo & Embeddings:** Google Gemini API (`gemini-1.5-flash`)
+* **Base de Datos Vectorial:** ChromaDB
+* **Procesamiento de Documentos:** PyPDF
+
+## 🚀 Instalación y Uso
+
+### 1. Clonar el repositorio
+```bash
+git clone [https://github.com/ctobar96/asistente-rag-pdf.git](https://github.com/ctobar96/asistente-rag-pdf.git)
+cd asistente-rag-pdf
