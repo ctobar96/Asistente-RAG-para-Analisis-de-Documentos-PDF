@@ -26,5 +26,32 @@ El sistema sigue el estándar de la industria para aplicaciones RAG:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/ctobar96/asistente-rag-pdf.git](https://github.com/ctobar96/asistente-rag-pdf.git)
-cd asistente-rag-pdf
+git clone https://github.com/ctobar96/Asistente-RAG-para-Analisis-de-Documentos-PDF.git 
+
+cd Asistente-RAG-para-Analisis-de-Documentos-PDF
+```
+
+### 2. Instalar dependencias
+```bash
+pip install langchain langchain-chroma langchain-google-genai pypdf chromadb
+```
+
+### 3. Configuración de Variables de Entorno
+Obtén una API Key gratuita desde [Google AI Studio](https://aistudio.google.com/) y configúrala en tu entorno o reemplázala en el script asistente_pdf.py:
+
+```py
+os.environ["GOOGLE_API_KEY"] = "TU_API_KEY_AQUI"
+```
+
+### 4. Ejecución  
+Coloca un archivo PDF en el directorio raíz del proyecto y ejecuta el script:
+```bash
+python asistente_pdf.py
+```
+
+## 👨‍💻 Autor
+
+**Cristian Matías Tobar Morales**  
+Ingeniero Civil Geológico | Magíster en Data Science  
+
+GitHub: [@ctobar96](https://github.com/ctobar96)
