@@ -31,19 +31,29 @@ git clone https://github.com/ctobar96/Asistente-RAG-para-Analisis-de-Documentos-
 cd Asistente-RAG-para-Analisis-de-Documentos-PDF
 ```
 
-### 2. Instalar dependencias
+### 2. Configurar el Entorno Virtual
+Para evitar conflictos de versiones, crea y activa un entorno virtual en la carpeta del proyecto:
+En Windows:
 ```bash
-pip install langchain langchain-chroma langchain-google-genai pypdf chromadb
+python -m venv venv_RAG
+.\venv\Scripts\activate
 ```
 
-### 3. Configuración de Variables de Entorno
+### 3. Instalar dependencias
+Instala todas las librerías necesarias ejecutando el archivo de requerimientos:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configuración de Variables de Entorno
 Obtén una API Key gratuita desde [Google AI Studio](https://aistudio.google.com/) y configúrala en tu entorno o reemplázala en el script asistente_pdf.py:
 
 ```py
 os.environ["GOOGLE_API_KEY"] = "TU_API_KEY_AQUI"
 ```
 
-### 4. Ejecución  
+### 5. Ejecución  
 Coloca un archivo PDF en el directorio raíz del proyecto y ejecuta el script:
 ```bash
 python asistente_pdf.py
