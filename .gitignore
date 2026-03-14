@@ -1,3 +1,16 @@
-.env
-venv/ 
+# Entornos virtuales y variables de entorno
 venv_RAG/
+venv/ 
+.env
+
+# Bases de datos vectoriales locales
+chroma_db/
+
+# Ignorar todos los PDFs para no subir documentos sensibles...
+data/pdf/*.pdf
+# ...excepto un PDF público de prueba (opcional, si quieres mostrar uno de ejemplo)
+!data/pdf/documento_publico_prueba.pdf
+
+# Caché de Python
+__pycache__/
+*.pyc 

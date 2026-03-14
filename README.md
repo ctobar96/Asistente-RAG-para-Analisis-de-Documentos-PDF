@@ -22,6 +22,34 @@ El sistema sigue el estándar de la industria para aplicaciones RAG:
 * **Base de Datos Vectorial:** ChromaDB
 * **Procesamiento de Documentos:** PyPDF
 
+
+## Estructura del proyecto
+```bash
+Asistente-RAG-para-Analisis-de-Documentos-PDF
+│
+├── data/
+│   └── pdf/                 # PDFs que analizará el sistema
+│
+├── chroma_db/               # Base vectorial (se puede ignorar en git)
+│
+├── src/                     # Código fuente
+│   ├── loader.py            # Carga de PDFs
+│   ├── embeddings.py        # Generación de embeddings
+│   ├── vectorstore.py       # Base vectorial
+│   ├── rag_chain.py         # Pipeline RAG
+│   └── main.py              # Programa principal
+│
+├── notebooks/               # Experimentos
+│   └── pruebas_rag.ipynb
+│
+├── .env                     # API keys (NO subir)
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── asistente_pdf.py         # versión simple del asistente
+```
+
+
 ## 🚀 Instalación y Uso
 
 ### 1. Clonar el repositorio
