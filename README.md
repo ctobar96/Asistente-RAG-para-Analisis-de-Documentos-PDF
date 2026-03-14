@@ -39,8 +39,14 @@ Asistente-RAG-para-Analisis-de-Documentos-PDF
 │   ├── rag_chain.py         # Pipeline RAG
 │   └── main.py              # Programa principal
 │
+├── app/
+│   └── streamlit_app.py    # interfaz web
+│
 ├── notebooks/               # Experimentos
 │   └── pruebas_rag.ipynb
+│
+├── architecture/
+│   └── rag_pipeline.png
 │
 ├── .env                     # API keys (NO subir)
 ├── .gitignore
