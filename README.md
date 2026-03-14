@@ -51,6 +51,8 @@ Asistente-RAG-para-Analisis-de-Documentos-PDF
 ├── .env                     # API keys (NO subir)
 ├── .gitignore
 ├── requirements.txt
+├── Dockerfile
+├── .dockerignore
 ├── README.md
 └── asistente_pdf.py         # versión simple del asistente
 ```
