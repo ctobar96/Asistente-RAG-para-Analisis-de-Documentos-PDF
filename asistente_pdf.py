@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
@@ -34,13 +35,14 @@ def analizar_documento(ruta_pdf, pregunta):
     print("Creando base de datos vectorial temporal...")
     vectorstore = Chroma.from_documents(
         documents=splits, 
-        embedding=GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        embedding=GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001"),
+        persist_directory="./chroma_db"
     )
     # Crear un "recuperador" para buscar la info más relevante
     retriever = vectorstore.as_retriever()
 
     # 5. Configurar el Modelo Generativo (LLM)
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
     # 6. Definir las instrucciones (Prompt Engineering)
     system_prompt = (
@@ -69,7 +71,7 @@ def analizar_documento(ruta_pdf, pregunta):
 # --- Prueba del Asistente ---
 if __name__ == "__main__":
     # Asegúrate de tener un archivo PDF en la misma carpeta para probar
-    archivo_prueba = "Gobernanza de datos.pdf" 
+    archivo_prueba = "data/pdf/Gobernanza de datos.pdf" 
     
     # Escribe lo que quieres saber del documento
     mi_pregunta = "Haz un resumen de los puntos más importantes de este documento."
