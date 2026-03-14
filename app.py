@@ -38,28 +38,41 @@ except Exception as e:
     st.error(f"❌ Error al iniciar el backend: {e}")
     st.stop()
 
-# 4. Interfaz de usuario para hacer preguntas
-pregunta = st.text_input("Escribe tu pregunta sobre el documento:")
+# 4. Interfaz de Chat (¡Más interactiva y moderna!)
 
-if st.button("Consultar", type="primary"):
-    if pregunta:
-        # Creamos un espacio temporal para el mensaje de carga
-        mensaje_estado = st.empty()
-        mensaje_estado.info("⏳ Analizando el documento y generando respuesta, por favor espera...")
-        
-        try:
-            # Llamamos a nuestro motor RAG
-            respuesta = cadena_rag.invoke({"input": pregunta})
-            
-            # Borramos el mensaje de carga
-            mensaje_estado.empty()
-            
-            # Mostramos el resultado final
-            st.markdown("### 🤖 Respuesta del Asistente RAG:")
-            st.success(respuesta["answer"]) # Usamos st.success para un cuadro verde bonito
-            
-        except Exception as e:
-            mensaje_estado.empty()
-            st.error(f"❌ Ocurrió un error en el servidor: {e}")
-    else:
-        st.warning("⚠️ Por favor, escribe una pregunta primero.")
+# Inicializamos el historial de chat en la memoria del navegador
+if "mensajes" not in st.session_state:
+    st.session_state.mensajes = []
+
+# Dibujamos los mensajes anteriores en la pantalla
+for mensaje in st.session_state.mensajes:
+    with st.chat_message(mensaje["rol"]):
+        st.markdown(mensaje["contenido"])
+
+# La caja de texto flotante en la parte inferior (reemplaza al st.button)
+pregunta = st.chat_input("Escribe tu pregunta sobre el documento:")
+
+if pregunta:
+    # 1. Mostrar y guardar la pregunta del usuario al instante
+    with st.chat_message("user"):
+        st.markdown(pregunta)
+    st.session_state.mensajes.append({"rol": "user", "contenido": pregunta})
+
+    # 2. Mostrar el asistente pensando y luego su respuesta
+    with st.chat_message("assistant"):
+        with st.spinner("Analizando miles de vectores..."):
+            try:
+                # Llamamos a tu motor backend
+                respuesta = cadena_rag.invoke({"input": pregunta})
+                
+                # Mostramos el resultado
+                st.markdown("### 🤖 Respuesta del Asistente RAG:")
+                st.success(respuesta["answer"]) # Usamos st.success para un cuadro verde bonito
+                
+                # Guardamos la respuesta en el historial
+                st.session_state.mensajes.append({"rol": "assistant", "contenido": respuesta["answer"]})
+                
+            except Exception as e:
+                st.error(f"❌ Ocurrió un error en el servidor: {e}")
+else:
+    st.warning("⚠️ Por favor, escribe una pregunta primero.") 
