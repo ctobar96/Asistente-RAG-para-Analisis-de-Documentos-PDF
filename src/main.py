@@ -2,20 +2,20 @@
 import os
 from dotenv import load_dotenv
 # Importar funciones modulares
-from src.loader import cargar_documento
-from src.embeddings import crear_embeddings
-from src.vectorstore import crear_vectorstore
-from src.rag_chain import configurar_cadena_rag
+from loader import cargar_documento
+from embeddings import crear_embeddings
+from vectorstore import crear_vectorstore
+from rag_chain import configurar_cadena_rag
 
 def main():
     # Cargar variables de entorno (como la clave de API de Google)
-    load_dotenv(".../.env")
+    load_dotenv()
     if not os.environ.get("GOOGLE_API_KEY"):
         raise ValueError("¡Falta la API Key! Verifica tu archivo .env")
     
-    # Rutas con "../" porque ejecutaremos esto desde adentro de la carpeta "src"
-    ruta_pdf = "../data/pdf/Gobernanza de datos.pdf" 
-    directorio_db = "../chroma_db"
+    # Rutas relativas a la raíz del proyecto
+    ruta_pdf = "data/pdf/Gobernanza de datos.pdf" 
+    directorio_db = "chroma_db"
     pregunta = "¿Cuáles son las normas internacionales mencionadas en el documento y para qué sirven?"
     
     try:

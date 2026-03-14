@@ -12,11 +12,7 @@ Carga un PDF y lo divide en fragmentos (chunks) para su posterior procesamiento.
     docs = loader.load()
     
     print("Dividiendo el documento en fragmentos...")
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size, 
-        chunk_overlap=chunk_overlap
-    )
-    
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     splits = text_splitter.split_documents(docs)
     print(f"Documento dividido en {len(splits)} fragmentos.")
     
