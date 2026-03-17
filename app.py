@@ -1,6 +1,7 @@
 import streamlit as st
 import os   
 from dotenv import load_dotenv
+import tempfile 
 
 # Importar funciones modulares del backend
 from src.loader import cargar_documento
@@ -17,62 +18,78 @@ st.write("Carga un documento PDF y hazle preguntas para obtener respuestas basad
 load_dotenv()
 if not os.environ.get("GOOGLE_API_KEY"):
     st.error("¡Falta la API Key! Verifica tu archivo .env")
-    st.stop()  # Detiene la ejecución si no hay API Key 
+    st.stop()  
 
-ruta_pdf = "data/pdf/Gobernanza de datos.pdf"  # Ruta relativa al proyecto
+# Widget para cargar el PDF (reemplaza la ruta fija)
+archivo_subido = st.file_uploader("Carga tu documento PDF para analizar", type=["pdf"])
 
+# 3. Inicializar el motor RAG
+if archivo_subido is not None:
+    # Creamos un archivo temporal físico en el servidor
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as archivo_temporal:
+        archivo_temporal.write(archivo_subido.getvalue())
+        ruta_temporal = archivo_temporal.name
 
-# 3. Inicializar el motor RAG (El caché evita que recargue el PDF en cada pregunta)
-@st.cache_resource(show_spinner="Cargando documento y configurando el asistente...") # Esta función se ejecutará solo una vez y su resultado se almacenará en caché para futuras llamadas, evitando recargas innecesarias.
-def iniciar_motor():
-    splits = cargar_documento(ruta_pdf)
-    modelo_embeddings = crear_embeddings()
-    vectorstore = crear_vectorstore(splits, modelo_embeddings)
-    retriever = vectorstore.as_retriever()
-    rag_chain = configurar_cadena_rag(retriever)
-    return rag_chain
+    try:
+        # Usamos st.spinner solo para la inicialización
+        with st.spinner("Cargando documento y configurando el asistente..."):
+            
+            # --- FUNCIÓN DE CACHÉ ---
+            @st.cache_resource(show_spinner=False) 
+            def iniciar_motor(ruta):
+                splits = cargar_documento(ruta)
+                modelo_embeddings = crear_embeddings()
+                # Ajusta esta línea según cuántos argumentos reciba tu función crear_vectorstore
+                # Si solo recibe 'splits', bórra ', modelo_embeddings'
+                vectorstore = crear_vectorstore(splits) 
+                retriever = vectorstore.as_retriever()
+                rag_chain = configurar_cadena_rag(retriever)
+                return rag_chain
+            # ------------------------
 
-try:
-    cadena_rag = iniciar_motor()
-except Exception as e:
-    st.error(f"❌ Error al iniciar el backend: {e}")
-    st.stop()
-
-# 4. Interfaz de Chat (¡Más interactiva y moderna!)
-
-# Inicializamos el historial de chat en la memoria del navegador
-if "mensajes" not in st.session_state:
-    st.session_state.mensajes = []
-
-# Dibujamos los mensajes anteriores en la pantalla
-for mensaje in st.session_state.mensajes:
-    with st.chat_message(mensaje["rol"]):
-        st.markdown(mensaje["contenido"])
-
-# La caja de texto flotante en la parte inferior (reemplaza al st.button)
-pregunta = st.chat_input("Escribe tu pregunta sobre el documento:")
-
-if pregunta:
-    # 1. Mostrar y guardar la pregunta del usuario al instante
-    with st.chat_message("user"):
-        st.markdown(pregunta)
-    st.session_state.mensajes.append({"rol": "user", "contenido": pregunta})
-
-    # 2. Mostrar el asistente pensando y luego su respuesta
-    with st.chat_message("assistant"):
-        with st.spinner("Analizando miles de vectores..."):
             try:
-                # Llamamos a tu motor backend
-                respuesta = cadena_rag.invoke({"input": pregunta})
-                
-                # Mostramos el resultado
-                st.markdown("### 🤖 Respuesta del Asistente RAG:")
-                st.success(respuesta["answer"]) # Usamos st.success para un cuadro verde bonito
-                
-                # Guardamos la respuesta en el historial
-                st.session_state.mensajes.append({"rol": "assistant", "contenido": respuesta["answer"]})
-                
+                # Llamamos a la función con caché pasándole la ruta temporal
+                cadena_rag = iniciar_motor(ruta_temporal)
+                st.success("¡Documento procesado con éxito! Ya puedes hacer preguntas.")
             except Exception as e:
-                st.error(f"❌ Ocurrió un error en el servidor: {e}")
+                st.error(f"❌ Error al iniciar el backend: {e}")
+                st.stop()
+
+        # 4. Interfaz de Chat 
+        
+        # Inicializamos el historial de chat en la memoria del navegador
+        if "mensajes" not in st.session_state:
+            st.session_state.mensajes = []
+
+        # Dibujamos los mensajes anteriores en la pantalla
+        for mensaje in st.session_state.mensajes:
+            with st.chat_message(mensaje["rol"]):
+                st.markdown(mensaje["contenido"])
+
+        # La caja de texto flotante en la parte inferior
+        pregunta = st.chat_input("Escribe tu pregunta sobre el documento:")
+
+        if pregunta:
+            # Mostrar y guardar la pregunta del usuario
+            with st.chat_message("user"):
+                st.markdown(pregunta)
+            st.session_state.mensajes.append({"rol": "user", "contenido": pregunta})
+
+            # Mostrar el asistente pensando y luego su respuesta
+            with st.chat_message("assistant"):
+                with st.spinner("Analizando miles de vectores..."):
+                    try:
+                        respuesta = cadena_rag.invoke({"input": pregunta})
+                        st.markdown("### 🤖 Respuesta del Asistente RAG:")
+                        st.success(respuesta["answer"]) 
+                        st.session_state.mensajes.append({"rol": "assistant", "contenido": respuesta["answer"]})
+                    except Exception as e:
+                        st.error(f"❌ Ocurrió un error en el servidor: {e}")
+
+    finally:
+        # Limpieza: Borramos el archivo temporal del servidor
+        if os.path.exists(ruta_temporal):
+            os.remove(ruta_temporal)
+
 else:
-    st.warning("⚠️ Por favor, escribe una pregunta primero.") 
+    st.info("☝️ Por favor, sube un archivo PDF para comenzar.")
