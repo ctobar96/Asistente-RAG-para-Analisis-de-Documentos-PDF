@@ -39,9 +39,7 @@ if archivo_subido is not None:
             def iniciar_motor(ruta):
                 splits = cargar_documento(ruta)
                 modelo_embeddings = crear_embeddings()
-                # Ajusta esta línea según cuántos argumentos reciba tu función crear_vectorstore
-                # Si solo recibe 'splits', bórra ', modelo_embeddings'
-                vectorstore = crear_vectorstore(splits) 
+                vectorstore = crear_vectorstore(splits, modelo_embeddings) 
                 retriever = vectorstore.as_retriever()
                 rag_chain = configurar_cadena_rag(retriever)
                 return rag_chain
