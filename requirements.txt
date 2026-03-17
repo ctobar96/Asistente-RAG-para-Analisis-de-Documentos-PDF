@@ -6,5 +6,5 @@ chromadb
 pypdf
 python-dotenv
 sentence-transformers
-onnxruntime-headless
+onnxruntime
 streamlit
