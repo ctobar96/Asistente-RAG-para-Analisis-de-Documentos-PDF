@@ -15,7 +15,7 @@ def crear_vectorstore(splits, modelo_embeddings, directorio_persistencia="chroma
     if os.path.exists(directorio_persistencia) and os.listdir(directorio_persistencia):
         print("Cargando base de datos vectorial existente...")
         vectorstore = Chroma(
-            persist_directory=directorio_persistencia,
+            #persist_directory=directorio_persistencia,
             embedding_function=modelo_embeddings
         ) 
     else:
@@ -23,7 +23,7 @@ def crear_vectorstore(splits, modelo_embeddings, directorio_persistencia="chroma
         vectorstore = Chroma.from_documents(
             documents=splits,               # Toma todos los fragmentos de texto (splits).
             embedding=modelo_embeddings,    # Se conecta a la API de Google usando el modelo.
-            persist_directory=directorio_persistencia # Guarda la base de datos para futuras cargas.
+            #persist_directory=directorio_persistencia # Guarda la base de datos para futuras cargas.
         )
     
     return vectorstore
