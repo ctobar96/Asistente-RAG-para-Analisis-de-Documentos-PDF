@@ -1,5 +1,14 @@
 # 📄 Asistente RAG para Análisis de Documentos PDF
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/LangChain-Orchestration-1C3C3C?style=flat-square&logo=langchain&logoColor=white" alt="LangChain">
+  <img src="https://img.shields.io/badge/ChromaDB-Vector_Store-6F4E37?style=flat-square&logo=chroma&logoColor=white" alt="ChromaDB">
+  <img src="https://img.shields.io/badge/Google_Gemini-1.5_Flash-4285F4?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini">
+  <a href="[Pon aquí tu link de Streamlit Cloud]"><img src="https://img.shields.io/badge/Deploy-Streamlit_Cloud-green?style=flat-square&logo=streamlit" alt="Deploy"></a>
+</p>
+
 Un asistente web interactivo impulsado por Inteligencia Artificial Generativa capaz de analizar, extraer información y responder preguntas específicas sobre cualquier documento PDF cargado dinámicamente, utilizando la arquitectura **RAG (Retrieval-Augmented Generation)**.
 
 ## 🎯 Objetivo del Proyecto
