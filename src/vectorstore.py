@@ -4,27 +4,19 @@ A este concepto se le llama Persistencia (o caché local),
 y su objetivo es ahorrarte tiempo, memoria y llamadas a la API de Google.
 """
 
+import chromadb
 from langchain_chroma import Chroma
-import os   
 
-def crear_vectorstore(splits, modelo_embeddings, directorio_persistencia="chroma_db"):
-    """
-    Crea una base de datos vectorial utilizando Chroma a partir de los fragmentos de texto y los embeddings
-    O cargar una existente para ahorrar tiempo y recursos.
-    """
-    if os.path.exists(directorio_persistencia) and os.listdir(directorio_persistencia):
-        print("Cargando base de datos vectorial existente...")
-        vectorstore = Chroma(
-            #persist_directory=directorio_persistencia,
-            embedding_function=modelo_embeddings
-        ) 
-    else:
-        print("Creando y guardando nueva base de datos vectorial...")
-        vectorstore = Chroma.from_documents(
-            documents=splits,               # Toma todos los fragmentos de texto (splits).
-            embedding=modelo_embeddings,    # Se conecta a la API de Google usando el modelo.
-            #persist_directory=directorio_persistencia # Guarda la base de datos para futuras cargas.
-        )
+def crear_vectorstore(splits, modelo_embeddings):
+    # 1. Creamos un cliente aislado y desechable para engañar al bug de Chroma
+    cliente_aislado = chromadb.EphemeralClient()
+    
+    # 2. Le pasamos este cliente específico a nuestra base de datos
+    vectorstore = Chroma.from_documents(
+        documents=splits,
+        embedding=modelo_embeddings,
+        client=cliente_aislado
+    )
     
     return vectorstore
     
