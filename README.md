@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/Google_Gemini-1.5_Flash-4285F4?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini">
   <a href="[Pon aquí tu link de Streamlit Cloud]"><img src="https://img.shields.io/badge/Deploy-Streamlit_Cloud-green?style=flat-square&logo=streamlit" alt="Deploy"></a>
 </p>
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://asistente-rag.streamlit.app/)
 
 Un asistente web interactivo impulsado por Inteligencia Artificial Generativa capaz de analizar, extraer información y responder preguntas específicas sobre cualquier documento PDF cargado dinámicamente, utilizando la arquitectura **RAG (Retrieval-Augmented Generation)**.
 
