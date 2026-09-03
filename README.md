@@ -109,7 +109,7 @@ streamlit run app.py
 
 ## 👨‍💻 Autor
 
-**Cristian Tobar Morales**
+**Cristian Tobar Morales**  
 *Data Scientist | Analytics Engineer | ML Engineer*
 
 
