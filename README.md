@@ -109,7 +109,19 @@ streamlit run app.py
 
 ## 👨‍💻 Autor
 
-**Cristian Matías Tobar Morales**  
-Ingeniero Civil Geológico | Magíster en Data Science  
+**Cristian Tobar Morales**
+*Data Scientist | Analytics Engineer | ML Engineer*
 
-GitHub: [@ctobar96](https://github.com/ctobar96)
+
+### 🔗 Contacto
+
+* **LinkedIn:** [Cristian Tobar Morales](#)
+* **GitHub:** [@ctobar96](https://github.com/ctobar96)
+
+---
+
+## 📄 Licencia
+
+Este proyecto está disponible bajo la **Licencia MIT**.
+
+
