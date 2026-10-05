@@ -28,7 +28,8 @@ def configurar_cadena_rag(retriever):
     # primero recupera información relevante y luego genera una respuesta basada en esa información.
     question_answer_chain = create_stuff_documents_chain(llm, prompt) 
     
-    # Crea la cadena RAG que integra el retriever con el modelo generativo para responder preguntas basadas en los documentos recuperados.
+    # Crea la cadena RAG que integra el retriever con el modelo generativo para responder preguntas 
+    # basadas en los documentos recuperados.
     rag_chain = create_retrieval_chain(retriever, question_answer_chain)    
      
     return rag_chain
